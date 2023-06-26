@@ -8,6 +8,8 @@ import 'package:todo_app/ui/views/phoneAuth_viewmodel.dart';
 class PhoneAuthView extends StatelessWidget {
  PhoneAuthView({Key? key}) : super(key: key);
  final OtpFieldController otpController = OtpFieldController();
+ final TextEditingController phoneNumberController = TextEditingController();
+
  @override
  Widget build(BuildContext context) {
    return ViewModelBuilder<PhoneAuthViewModel>.reactive(
@@ -15,7 +17,7 @@ class PhoneAuthView extends StatelessWidget {
        backgroundColor: Colors.black,
        appBar: AppBar(
          backgroundColor: Colors.black,
-         title: Text(
+         title: const Text(
              "Signup",
            style: TextStyle(
              color: Colors.white,
@@ -30,11 +32,11 @@ class PhoneAuthView extends StatelessWidget {
          child: SingleChildScrollView(
            child: Column(
              children: [
-               SizedBox(
+               const SizedBox(
                  height: 120,
                ),
                textField(context, model),
-               SizedBox(
+               const SizedBox(
                  height: 20,
                ),
                Container(
@@ -48,7 +50,7 @@ class PhoneAuthView extends StatelessWidget {
                          margin: const EdgeInsets.symmetric(horizontal: 12),
                        ),
                      ),
-                     Text(
+                     const Text(
                          "Enter 6 Digit OTP",
                        style: TextStyle(
                          color: Colors.white,
@@ -65,17 +67,17 @@ class PhoneAuthView extends StatelessWidget {
                    ],
                  ),
                ),
-               SizedBox(
+               const SizedBox(
                  height: 30,
                ),
-               otpField(context),
-               SizedBox(
+               otpField(context, model),
+               const SizedBox(
                  height: 40,
                ),
                RichText(
                  text: TextSpan(
                    children: [
-                     TextSpan(
+                     const TextSpan(
                        text: "Send Otp again in ",
                        style: TextStyle(
                          fontSize: 16,
@@ -84,12 +86,12 @@ class PhoneAuthView extends StatelessWidget {
                      ),
                      TextSpan(
                          text: "00:${model.start}",
-                         style: TextStyle(
+                         style: const TextStyle(
                              fontSize: 16,
                              color: Colors.pinkAccent
                          )
                      ),
-                     TextSpan(
+                     const TextSpan(
                          text: " sec ",
                          style: TextStyle(
                              fontSize: 16,
@@ -99,23 +101,26 @@ class PhoneAuthView extends StatelessWidget {
                    ]
                  ),
                ),
-               SizedBox(
+               const SizedBox(
                  height: 150,
                ),
-               Container(
-                 height: 60,
-                 width: MediaQuery.of(context).size.width - 60,
-                 decoration: BoxDecoration(
-                   color: Color(0xffff9601),
-                   borderRadius: BorderRadius.circular(15)
-                 ),
-                 child: Center(
-                   child: Text(
-                     "Login / Signup",
-                     style: TextStyle(
-                       fontWeight: FontWeight.bold,
-                       color: Colors.white,
-                       fontSize: 19
+               InkWell(
+                 onTap: () => model.verifyOtpOnSubmit(),
+                 child: Container(
+                   height: 60,
+                   width: MediaQuery.of(context).size.width - 60,
+                   decoration: BoxDecoration(
+                     color: const Color(0xffff9601),
+                     borderRadius: BorderRadius.circular(15)
+                   ),
+                   child: const Center(
+                     child: Text(
+                       "Login / Signup",
+                       style: TextStyle(
+                         fontWeight: FontWeight.bold,
+                         color: Colors.white,
+                         fontSize: 19
+                       ),
                      ),
                    ),
                  ),
@@ -129,31 +134,27 @@ class PhoneAuthView extends StatelessWidget {
    );
  }
 
- Widget otpField(BuildContext context) {
-   return Container(
-     child: OTPTextField(
-         controller: otpController,
-         length: 6,
-         width: MediaQuery.of(context).size.width - 34,
-         textFieldAlignment: MainAxisAlignment.spaceAround,
-         fieldWidth: 58,
-         fieldStyle: FieldStyle.box,
-         outlineBorderRadius: 15,
-         otpFieldStyle: OtpFieldStyle(
-           backgroundColor: Color(0xff1d1d1d),
-           borderColor: Colors.white
-         ),
-         style: TextStyle(
-             fontSize: 17,
-           color: Colors.white
-         ),
-         onChanged: (pin) {
-           print("Changed: " + pin);
-         },
-         onCompleted: (pin) {
-           print("Completed: " + pin);
-         }),
-   );
+ Widget otpField(BuildContext context, PhoneAuthViewModel model) {
+   return OTPTextField(
+       controller: otpController,
+       length: 6,
+       width: MediaQuery.of(context).size.width - 34,
+       textFieldAlignment: MainAxisAlignment.spaceAround,
+       fieldWidth: 58,
+       fieldStyle: FieldStyle.box,
+       outlineBorderRadius: 15,
+       otpFieldStyle: OtpFieldStyle(
+         backgroundColor: const Color(0xff1d1d1d),
+         borderColor: Colors.white
+       ),
+       style: const TextStyle(
+           fontSize: 17,
+         color: Colors.white
+       ),
+       onChanged: (pin) {},
+       onCompleted: (pin) {
+         model.setPin(pin);
+       });
  }
 
  Widget textField(BuildContext context, PhoneAuthViewModel model) {
@@ -161,19 +162,24 @@ class PhoneAuthView extends StatelessWidget {
      width: MediaQuery.of(context).size.width - 40,
      height: 60,
      decoration: BoxDecoration(
-       color: Color(0xff1d1d1d),
+       color: const Color(0xff1d1d1d),
        borderRadius: BorderRadius.circular(15)
      ),
      child: TextFormField(
+       controller: phoneNumberController,
+       style: const TextStyle(
+           fontSize: 17,
+           color: Colors.white
+       ),
        decoration: InputDecoration(
          border: InputBorder.none,
          hintText: "Enter your phone number...",
-         hintStyle: TextStyle(
+         hintStyle: const TextStyle(
            color: Colors.white54,
            fontSize: 17
          ),
-         contentPadding: EdgeInsets.symmetric(vertical: 19, horizontal: 8),
-         prefixIcon: Padding(
+         contentPadding: const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
+         prefixIcon: const Padding(
            padding: EdgeInsets.symmetric(vertical: 14, horizontal: 15),
            child: Text(
              " (+91) ",
@@ -185,10 +191,10 @@ class PhoneAuthView extends StatelessWidget {
          ),
          suffixIcon: InkWell(
            onTap: () {
-             model.otpSent ? null : model.startTimer();
+             model.otpSent ? null : {model.startTimer(), model.verifyPhoneNumber(phoneNumberController.text)};
            },
            child: Padding(
-             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
              child: Text(
                  model.sendButtonName,
                  style: TextStyle(
