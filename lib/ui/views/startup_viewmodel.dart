@@ -14,4 +14,7 @@ class StartUpViewModel extends BaseViewModel {
     void navigateToHome () {
       _navigationService.navigateTo(Routes.homeView);
     }
+    void navigateToAddTodo () {
+      _navigationService.navigateTo(Routes.addTodoView);
+    }
 }

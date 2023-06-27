@@ -19,7 +19,8 @@ class StartUpView extends StackedView<StartUpViewModel> {
                Text('Stacked Introduction'),
                TextButton(onPressed: () => viewModel.navigateToSignup(), child: Text('Go to Signup')),
                TextButton(onPressed: () => viewModel.navigateToLogin(), child: Text('Go to Login')),
-               TextButton(onPressed: () => viewModel.navigateToHome(), child: Text('Go to Home'))
+               TextButton(onPressed: () => viewModel.navigateToHome(), child: Text('Go to Home')),
+               TextButton(onPressed: () => viewModel.navigateToAddTodo(), child: Text('Go to Add Todo'))
              ],
            ),
          ),
