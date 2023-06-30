@@ -24,6 +24,12 @@ workflows:
           app_id: 1:777924062407:android:3ddbf2f1fbdc4358d2e2e2
           groups:
             - internal
+      slack:
+        channel: "#build"
+        notify_on_build_start: true # To receive a notification when a build starts
+        notify:
+          success: true # To not receive a notification when a build succeeds
+          failure: true # To not receive a notification when a build fails
 
   ios-workflow-id:
     name: ios QA workflow
