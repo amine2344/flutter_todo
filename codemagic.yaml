@@ -3,6 +3,9 @@ workflows:
     name: QA workflow
     max_build_duration: 120
     instance_type: mac_mini_m1
+    environment:
+      groups:
+        - firebase_credentials
     scripts:
       - name: Set up local.properties
         script: |
@@ -19,7 +22,7 @@ workflows:
       - flutter_drive.log
     publishing:
       firebase:
-        firebase_service_account: firebase-adminsdk-4w64g@flutter-todo-70898.iam.gserviceaccount.com
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
         android:
           app_id: 1:777924062407:android:3ddbf2f1fbdc4358d2e2e2
           groups:
