@@ -22,6 +22,7 @@ workflows:
           flutter build appbundle --release --build-name=1.0.0 --build-number=1
     artifacts:
       - build/**/outputs/**/*.aab
+      - build/**/outputs/**/*.apk
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
     publishing:
