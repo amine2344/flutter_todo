@@ -3,6 +3,20 @@ workflows:
     name: QA workflow
     max_build_duration: 120
     instance_type: mac_mini_m1
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Build AAB with Flutter
+        script: |
+          flutter build appbundle --release --build-name=1.0.0 --build-number=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
     publishing:
       firebase:
         firebase_token: 1//0gvqU4Zw62IUwCgYIARAAGBASNwF-L9IruUMEDufCfOBj7sfSIOuIROPnpZhPbPO1uRP0G1e6phDaqLIu6m2EG4q7tPx-gCksgac
