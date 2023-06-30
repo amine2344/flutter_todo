@@ -19,7 +19,7 @@ workflows:
       - flutter_drive.log
     publishing:
       firebase:
-        firebase_token: 1//0gvqU4Zw62IUwCgYIARAAGBASNwF-L9IruUMEDufCfOBj7sfSIOuIROPnpZhPbPO1uRP0G1e6phDaqLIu6m2EG4q7tPx-gCksgac
+        firebase_service_account: firebase-adminsdk-4w64g@flutter-todo-70898.iam.gserviceaccount.com
         android:
           app_id: 1:777924062407:android:3ddbf2f1fbdc4358d2e2e2
           groups:
