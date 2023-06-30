@@ -31,6 +31,7 @@ workflows:
           app_id: 1:777924062407:android:3ddbf2f1fbdc4358d2e2e2
           groups:
             - internal
+          artifact_type: apk
       slack:
         channel: "#build"
         notify_on_build_start: true # To receive a notification when a build starts
