@@ -12,7 +12,7 @@ workflows:
           flutter packages pub get
       - name: Build AAB with Flutter
         script: |
-          flutter build appbundle --release --build-name=1.0.0 --build-number=1.0.1
+          flutter build appbundle --release --build-name=1.0.0 --build-number=1
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
