@@ -3,6 +3,14 @@ workflows:
     name: QA workflow
     max_build_duration: 120
     instance_type: mac_mini_m1
+    publishing:
+      firebase:
+        firebase_token: 1//0gvqU4Zw62IUwCgYIARAAGBASNwF-L9IruUMEDufCfOBj7sfSIOuIROPnpZhPbPO1uRP0G1e6phDaqLIu6m2EG4q7tPx-gCksgac
+        android:
+          app_id: 1:777924062407:android:3ddbf2f1fbdc4358d2e2e2
+          groups:
+            - internal
+
   ios-workflow-id:
     name: ios QA workflow
     max_build_duration: 120
