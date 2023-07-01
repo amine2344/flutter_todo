@@ -4,6 +4,9 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m1
     environment:
+      flutter: stable
+      android_signing:
+        - keystore
       groups:
         - firebase_credentials
     scripts:
