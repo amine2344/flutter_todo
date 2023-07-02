@@ -47,4 +47,8 @@ class HomeViewModel extends FutureViewModel<bool> {
     await _navigationService.clearStackAndShow(Routes.loginView);
   }
 
+  void navigateToAddTodo () {
+    _navigationService.navigateTo(Routes.addTodoView);
+  }
+
 }

@@ -11,6 +11,7 @@ import 'package:stacked_services/src/snackbar/snackbar_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/auth_service.dart';
+import '../services/database_service.dart';
 import '../services/firebase_notification_handler.dart';
 import '../services/notification_manager.dart';
 import '../services/shared_preferences_service.dart';
@@ -32,4 +33,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => SharedPreferencesService());
   locator.registerLazySingleton(() => PushNotificationService());
   locator.registerLazySingleton(() => NotificationManager());
+  locator.registerLazySingleton(() => DatabaseService());
 }

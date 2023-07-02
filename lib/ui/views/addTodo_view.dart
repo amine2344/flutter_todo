@@ -3,8 +3,9 @@ import 'package:stacked/stacked.dart';
 import 'package:todo_app/ui/views/addTodo_viewmodel.dart';
 
 class AddTodoView extends StatelessWidget {
- const AddTodoView({Key? key}) : super(key: key);
-
+ AddTodoView({Key? key}) : super(key: key);
+ final _titleController = TextEditingController();
+ final _descriptionController = TextEditingController();
  @override
  Widget build(BuildContext context) {
    return ViewModelBuilder<AddTodoViewModel>.reactive(
@@ -56,11 +57,11 @@ class AddTodoView extends StatelessWidget {
                  ),
                  Row(
                    children: [
-                     chip("Important", 0xffabd433, context),
+                     typeChip("Important", 0xffabd433, context, model),
                      const SizedBox(
                        width: 20,
                      ),
-                     chip("Planned", 0xffff33d4, context)
+                     typeChip("Planned", 0xffff33d4, context, model)
                    ],
                  ),
                  const SizedBox(
@@ -81,25 +82,25 @@ class AddTodoView extends StatelessWidget {
                  Wrap(
                    runSpacing: 20,
                    children: [
-                     chip("Food", 0xffff6d6e, context),
+                     categoryChip("Food", 0xffff6d6e, context, model),
                      const SizedBox(
                        width: 20,
                      ),
-                     chip("Work", 0xfff29732, context),
+                     categoryChip("Work", 0xfff29732, context, model),
                      const SizedBox(
                        width: 20,
                      ),
-                     chip("Work out", 0xff6557ff, context),
+                     categoryChip("Work out", 0xff6557ff, context, model),
                      const SizedBox(
                        width: 20,
                      ),
-                     chip("Shopping", 0xff2bc8d9, context)
+                     categoryChip("Shopping", 0xff2bc8d9, context, model)
                    ],
                  ),
                  const SizedBox(
                    height: 50,
                  ),
-                 button(context)
+                 button(context, model)
                ],
              ),
            ),
@@ -110,26 +111,29 @@ class AddTodoView extends StatelessWidget {
    );
  }
 
- Widget button(BuildContext context) {
-   return Container(
-     height: 56,
-     width: MediaQuery.of(context).size.width,
-     decoration: BoxDecoration(
-       borderRadius: BorderRadius.circular(15),
-       gradient: LinearGradient(
-         colors: [
-           Color(0xff8a32f1),
-           Color(0xffad32f9)
-         ]
-       )
-     ),
-     child: Center(
-       child: Text(
-         "Add Todo",
-         style: TextStyle(
-           color: Colors.white,
-           fontWeight: FontWeight.w600,
-           fontSize: 17
+ Widget button(BuildContext context, AddTodoViewModel model) {
+   return InkWell(
+     onTap: () => model.addTodo(_titleController.text, _descriptionController.text),
+     child: Container(
+       height: 56,
+       width: MediaQuery.of(context).size.width,
+       decoration: BoxDecoration(
+         borderRadius: BorderRadius.circular(15),
+         gradient: LinearGradient(
+           colors: [
+             Color(0xff8a32f1),
+             Color(0xffad32f9)
+           ]
+         )
+       ),
+       child: const Center(
+         child: Text(
+           "Add Todo",
+           style: TextStyle(
+             color: Colors.white,
+             fontWeight: FontWeight.w600,
+             fontSize: 17
+           ),
          ),
        ),
      ),
@@ -145,6 +149,7 @@ class AddTodoView extends StatelessWidget {
          borderRadius: BorderRadius.circular(15)
      ),
      child: TextFormField(
+       controller: _descriptionController,
        maxLines: null,
        style: const TextStyle(
            color: Colors.grey,
@@ -166,23 +171,50 @@ class AddTodoView extends StatelessWidget {
    );
  }
 
- Widget chip(String text, int color, BuildContext context) {
-   return Chip(
-     label: Text(
-       text,
-       style: const TextStyle(
-         color: Colors.white,
-         fontWeight: FontWeight.w600,
-         fontSize: 17
+ Widget typeChip(String text, int color, BuildContext context, AddTodoViewModel model) {
+   return InkWell(
+     onTap: () => model.updateType(text),
+     child: Chip(
+       label: Text(
+         text,
+         style: TextStyle(
+           color: model.type == text ? Colors.black :Colors.white,
+           fontWeight: FontWeight.w600,
+           fontSize: 17
+         ),
+       ),
+       shape: RoundedRectangleBorder(
+         borderRadius: BorderRadius.circular(15)
+       ),
+       backgroundColor: model.type == text ? Colors.white : Color(color),
+       labelPadding: const EdgeInsets.symmetric(
+         horizontal: 17,
+         vertical: 3.8
        ),
      ),
-     shape: RoundedRectangleBorder(
-       borderRadius: BorderRadius.circular(15)
-     ),
-     backgroundColor: Color(color),
-     labelPadding: const EdgeInsets.symmetric(
-       horizontal: 17,
-       vertical: 3.8
+   );
+ }
+
+ Widget categoryChip(String text, int color, BuildContext context, AddTodoViewModel model) {
+   return InkWell(
+     onTap: () => model.updateCategory(text),
+     child: Chip(
+       label: Text(
+         text,
+         style: TextStyle(
+           color: model.category == text ? Colors.black :Colors.white,
+           fontWeight: FontWeight.w600,
+           fontSize: 17
+         ),
+       ),
+       shape: RoundedRectangleBorder(
+         borderRadius: BorderRadius.circular(15)
+       ),
+       backgroundColor: model.category == text ? Colors.white : Color(color),
+       labelPadding: const EdgeInsets.symmetric(
+         horizontal: 17,
+         vertical: 3.8
+       ),
      ),
    );
  }
@@ -196,6 +228,7 @@ class AddTodoView extends StatelessWidget {
        borderRadius: BorderRadius.circular(15)
      ),
      child: TextFormField(
+       controller: _titleController,
        style: const TextStyle(
          color: Colors.grey,
          fontSize: 17

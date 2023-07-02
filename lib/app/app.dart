@@ -1,4 +1,5 @@
 import 'package:todo_app/services/auth_service.dart';
+import 'package:todo_app/services/database_service.dart';
 import 'package:todo_app/services/firebase_notification_handler.dart';
 import 'package:todo_app/services/notification_manager.dart';
 import 'package:todo_app/services/shared_preferences_service.dart';
@@ -29,7 +30,7 @@ import 'package:todo_app/ui/views/startup_view.dart';
     LazySingleton(classType: SharedPreferencesService),
     LazySingleton(classType: PushNotificationService),
     LazySingleton(classType: NotificationManager),
-
+    LazySingleton(classType: DatabaseService),
   ],
 )
 class AppSetUp {}

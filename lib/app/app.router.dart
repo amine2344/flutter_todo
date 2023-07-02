@@ -123,8 +123,11 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i8.AddTodoView: (data) {
+      final args = data.getArgs<AddTodoViewArguments>(
+        orElse: () => const AddTodoViewArguments(),
+      );
       return _i9.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i8.AddTodoView(),
+        builder: (context) => _i8.AddTodoView(key: args.key),
         settings: data,
       );
     },
@@ -192,6 +195,28 @@ class PhoneAuthViewArguments {
 
   @override
   bool operator ==(covariant PhoneAuthViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode;
+  }
+}
+
+class AddTodoViewArguments {
+  const AddTodoViewArguments({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return '{"key": "$key"}';
+  }
+
+  @override
+  bool operator ==(covariant AddTodoViewArguments other) {
     if (identical(this, other)) return true;
     return other.key == key;
   }
@@ -293,14 +318,16 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToAddTodoView([
+  Future<dynamic> navigateToAddTodoView({
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.addTodoView,
+        arguments: AddTodoViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -397,14 +424,16 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithAddTodoView([
+  Future<dynamic> replaceWithAddTodoView({
+    _i10.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.addTodoView,
+        arguments: AddTodoViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
