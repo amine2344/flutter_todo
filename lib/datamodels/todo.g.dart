@@ -15,6 +15,7 @@ Todo _$TodoFromJson(Map json) => Todo(
       const TimestampConverter().fromJson(json['createdAt']),
       const TimestampConverter().fromJson(json['updatedAt']),
       json['userId'] as String,
+      json['todoId'] as String,
     );
 
 Map<String, dynamic> _$TodoToJson(Todo instance) {
@@ -37,5 +38,6 @@ Map<String, dynamic> _$TodoToJson(Todo instance) {
   writeNotNull(
       'updatedAt', const TimestampConverter().toJson(instance.updatedAt));
   val['userId'] = instance.userId;
+  val['todoId'] = instance.todoId;
   return val;
 }

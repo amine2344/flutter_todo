@@ -7,6 +7,7 @@ import 'package:todo_app/services/shared_preferences_service.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:todo_app/ui/views/addTodo_view.dart';
+import 'package:todo_app/ui/views/editTodo_view.dart';
 import 'package:todo_app/ui/views/home_view.dart';
 import 'package:todo_app/ui/views/initial_view.dart';
 import 'package:todo_app/ui/views/login_view.dart';
@@ -22,6 +23,7 @@ import 'package:todo_app/ui/views/startup_view.dart';
     MaterialRoute(page: LoginView),
     MaterialRoute(page: PhoneAuthView),
     MaterialRoute(page: AddTodoView),
+    MaterialRoute(page: EditTodoView),
   ],
   dependencies: [
     LazySingleton(classType: NavigationService),

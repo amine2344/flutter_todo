@@ -5,12 +5,14 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/cupertino.dart' as _i10;
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/cupertino.dart' as _i11;
+import 'package:flutter/material.dart' as _i10;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i11;
+import 'package:stacked_services/stacked_services.dart' as _i13;
+import 'package:todo_app/datamodels/todo.dart' as _i12;
 import 'package:todo_app/ui/views/addTodo_view.dart' as _i8;
+import 'package:todo_app/ui/views/editTodo_view.dart' as _i9;
 import 'package:todo_app/ui/views/home_view.dart' as _i4;
 import 'package:todo_app/ui/views/initial_view.dart' as _i2;
 import 'package:todo_app/ui/views/login_view.dart' as _i6;
@@ -33,6 +35,8 @@ class Routes {
 
   static const addTodoView = '/add-todo-view';
 
+  static const editTodoView = '/edit-todo-view';
+
   static const all = <String>{
     initialView,
     startUpView,
@@ -41,6 +45,7 @@ class Routes {
     loginView,
     phoneAuthView,
     addTodoView,
+    editTodoView,
   };
 }
 
@@ -74,23 +79,27 @@ class StackedRouter extends _i1.RouterBase {
       Routes.addTodoView,
       page: _i8.AddTodoView,
     ),
+    _i1.RouteDef(
+      Routes.editTodoView,
+      page: _i9.EditTodoView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.InitialView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.InitialView(),
         settings: data,
       );
     },
     _i3.StartUpView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartUpView(),
         settings: data,
       );
     },
     _i4.HomeView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.HomeView(),
         settings: data,
       );
@@ -99,7 +108,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<SignupViewArguments>(
         orElse: () => const SignupViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i5.SignupView(key: args.key),
         settings: data,
       );
@@ -108,7 +117,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<LoginViewArguments>(
         orElse: () => const LoginViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i6.LoginView(key: args.key),
         settings: data,
       );
@@ -117,7 +126,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<PhoneAuthViewArguments>(
         orElse: () => const PhoneAuthViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i7.PhoneAuthView(key: args.key),
         settings: data,
       );
@@ -126,8 +135,15 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<AddTodoViewArguments>(
         orElse: () => const AddTodoViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => _i8.AddTodoView(key: args.key),
+        settings: data,
+      );
+    },
+    _i9.EditTodoView: (data) {
+      final args = data.getArgs<EditTodoViewArguments>(nullOk: false);
+      return _i10.MaterialPageRoute<dynamic>(
+        builder: (context) => _i9.EditTodoView(key: args.key, todo: args.todo),
         settings: data,
       );
     },
@@ -142,7 +158,7 @@ class StackedRouter extends _i1.RouterBase {
 class SignupViewArguments {
   const SignupViewArguments({this.key});
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   @override
   String toString() {
@@ -164,7 +180,7 @@ class SignupViewArguments {
 class LoginViewArguments {
   const LoginViewArguments({this.key});
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   @override
   String toString() {
@@ -186,7 +202,7 @@ class LoginViewArguments {
 class PhoneAuthViewArguments {
   const PhoneAuthViewArguments({this.key});
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   @override
   String toString() {
@@ -208,7 +224,7 @@ class PhoneAuthViewArguments {
 class AddTodoViewArguments {
   const AddTodoViewArguments({this.key});
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   @override
   String toString() {
@@ -227,7 +243,34 @@ class AddTodoViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i11.NavigationService {
+class EditTodoViewArguments {
+  const EditTodoViewArguments({
+    this.key,
+    required this.todo,
+  });
+
+  final _i11.Key? key;
+
+  final _i12.Todo todo;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "todo": "$todo"}';
+  }
+
+  @override
+  bool operator ==(covariant EditTodoViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.todo == todo;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ todo.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i13.NavigationService {
   Future<dynamic> navigateToInitialView([
     int? routerId,
     bool preventDuplicates = true,
@@ -271,7 +314,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> navigateToSignupView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -287,7 +330,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> navigateToLoginView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -303,7 +346,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> navigateToPhoneAuthView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -319,7 +362,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> navigateToAddTodoView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -328,6 +371,23 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }) async {
     return navigateTo<dynamic>(Routes.addTodoView,
         arguments: AddTodoViewArguments(key: key),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToEditTodoView({
+    _i11.Key? key,
+    required _i12.Todo todo,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.editTodoView,
+        arguments: EditTodoViewArguments(key: key, todo: todo),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -377,7 +437,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> replaceWithSignupView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -393,7 +453,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> replaceWithLoginView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -409,7 +469,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> replaceWithPhoneAuthView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -425,7 +485,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }
 
   Future<dynamic> replaceWithAddTodoView({
-    _i10.Key? key,
+    _i11.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -434,6 +494,23 @@ extension NavigatorStateExtension on _i11.NavigationService {
   }) async {
     return replaceWith<dynamic>(Routes.addTodoView,
         arguments: AddTodoViewArguments(key: key),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithEditTodoView({
+    _i11.Key? key,
+    required _i12.Todo todo,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.editTodoView,
+        arguments: EditTodoViewArguments(key: key, todo: todo),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

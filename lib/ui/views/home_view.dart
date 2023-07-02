@@ -12,6 +12,7 @@ class HomeView extends StatelessWidget {
    return ViewModelBuilder<HomeViewModel>.reactive(
      builder: (context, model, child) => Scaffold(
        appBar: AppBar(
+         automaticallyImplyLeading: false,
          backgroundColor: Colors.pinkAccent,
          iconTheme: const IconThemeData(
            color: Colors.white
@@ -47,14 +48,17 @@ class HomeView extends StatelessWidget {
                itemCount: model.todos.length,
                itemBuilder: (context, index) {
                  Todo todo = model.todos[index];
-                 return TodoCard(
-                     todo.title,
-                     Icons.audiotrack,
-                     '03 AM',
-                     todo.completedStatus,
-                     Colors.white,
-                     Colors.black,
-                     context
+                 return InkWell(
+                   onTap: () => model.navigateToEditTodo(todo),
+                   child: TodoCard(
+                       todo.title,
+                       Icons.audiotrack,
+                       '03 AM',
+                       todo.completedStatus,
+                       Colors.white,
+                       Colors.black,
+                       context
+                   ),
                  );
                },
              )

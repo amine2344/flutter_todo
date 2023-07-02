@@ -14,8 +14,9 @@ class Todo {
   @TimestampConverter()
   DateTime updatedAt;
   String userId;
+  String todoId;
 
-  Todo(this.category, this.title, this.description, this.completedStatus, this.type, this.createdAt, this.updatedAt, this.userId);
+  Todo(this.category, this.title, this.description, this.completedStatus, this.type, this.createdAt, this.updatedAt, this.userId, this.todoId);
 
   factory Todo.fromJson(Map<String, dynamic> json) =>
       _$TodoFromJson(json);

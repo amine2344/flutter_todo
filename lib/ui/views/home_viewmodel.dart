@@ -70,5 +70,7 @@ class HomeViewModel extends FutureViewModel<List<QueryDocumentSnapshot<Map<Strin
   void navigateToAddTodo () {
     _navigationService.navigateTo(Routes.addTodoView);
   }
-
+  void navigateToEditTodo (Todo todo) {
+    _navigationService.navigateTo(Routes.editTodoView, arguments: EditTodoViewArguments(todo: todo));
+  }
 }

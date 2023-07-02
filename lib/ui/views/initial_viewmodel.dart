@@ -13,7 +13,7 @@ class InitialViewModel extends BaseViewModel {
     await _sharedPreferencesService.initialise();
     await _pushNotificationService.initialise();
     Future.delayed(const Duration(seconds: 2), () async {
-      await _navigationService.clearStackAndShow(Routes.startUpView);
+      await _navigationService.clearStackAndShow(Routes.homeView);
     });
   }
 }
