@@ -36,7 +36,7 @@ class HomeViewModel extends FutureViewModel<bool> {
 
   @override
   void onData(bool? data) async {
-    if(_sharedPreferences.token == null) {
+    if(_sharedPreferences.uid == null) {
       await _navigationService.navigateTo(Routes.loginView);
     }
     notifyListeners();

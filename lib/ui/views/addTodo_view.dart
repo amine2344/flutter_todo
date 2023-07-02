@@ -119,15 +119,17 @@ class AddTodoView extends StatelessWidget {
        width: MediaQuery.of(context).size.width,
        decoration: BoxDecoration(
          borderRadius: BorderRadius.circular(15),
-         gradient: LinearGradient(
+         gradient: const LinearGradient(
            colors: [
              Color(0xff8a32f1),
              Color(0xffad32f9)
            ]
          )
        ),
-       child: const Center(
-         child: Text(
+       child: Center(
+         child: model.isLoading ? const CircularProgressIndicator(
+           color: Colors.white,
+         ) : const Text(
            "Add Todo",
            style: TextStyle(
              color: Colors.white,

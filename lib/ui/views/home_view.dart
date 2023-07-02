@@ -85,8 +85,8 @@ class HomeView extends StatelessWidget {
              )
            ),
            const BottomNavigationBarItem(
-             label: "Settings",
-             icon: Icon(Icons.settings)
+             label: "Profile",
+             icon: Icon(Icons.person)
            )
          ],
        ),

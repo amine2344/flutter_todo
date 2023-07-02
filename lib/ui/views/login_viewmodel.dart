@@ -21,8 +21,8 @@ class LoginViewModel extends FutureViewModel<bool> {
 
   @override
   void onData(bool? data) async {
-    if(_sharedPreferences.token != null) {
-      // await _navigationService.navigateTo(Routes.startUpView);
+    if(_sharedPreferences.uid != null) {
+      await _navigationService.navigateTo(Routes.startUpView);
     }
     notifyListeners();
   }
