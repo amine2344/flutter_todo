@@ -18,12 +18,14 @@ class HomeViewModel extends FutureViewModel<List<QueryDocumentSnapshot<Map<Strin
   DateTime? currentBackPressTime;
   List<Todo> todos = [];
   bool isLoading = true;
+  bool moreTodosAvailable = false;
+  DocumentSnapshot<Object?>? lastFetchId;
 
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       _snackbarService.showSnackbar(message: "Press again to exit.");
       return Future.value(false);
@@ -37,7 +39,7 @@ class HomeViewModel extends FutureViewModel<List<QueryDocumentSnapshot<Map<Strin
 
   @override
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> futureToRun() async {
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> toads = await _dbService.getTodos(_sharedPreferences.uid);
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> toads = await _dbService.getTodos(_sharedPreferences.uid, lastFetchId);
     return toads;
   }
 
@@ -48,9 +50,19 @@ class HomeViewModel extends FutureViewModel<List<QueryDocumentSnapshot<Map<Strin
       await _navigationService.navigateTo(Routes.loginView);
     }
     todos = [];
-    data?.forEach((todo) {
+    if(data!.length <8) {
+      moreTodosAvailable = false;
+      notifyListeners();
+    }
+    else {
+      moreTodosAvailable = true;
+      notifyListeners();
+    }
+    for (var todo in data) {
+      lastFetchId = todo;
       todos.add(Todo.fromJson(todo.data()));
-    });
+    }
+    isLoading = false;
     notifyListeners();
   }
 
@@ -65,6 +77,32 @@ class HomeViewModel extends FutureViewModel<List<QueryDocumentSnapshot<Map<Strin
   Future<void> logout() async {
     await _authService.logout();
     await _navigationService.clearStackAndShow(Routes.loginView);
+  }
+
+  Future<void> getTodos() async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> toads = await _dbService.getTodos(_sharedPreferences.uid, lastFetchId);
+    if(toads.length <8) {
+      moreTodosAvailable = false;
+      notifyListeners();
+    }
+    else {
+      moreTodosAvailable = true;
+      notifyListeners();
+    }
+    for(var todo in toads) {
+      lastFetchId = todo;
+      todos.add(Todo.fromJson(todo.data()));
+    }
+    notifyListeners();
+  }
+
+  Future<void> refreshTodos () async {
+    todos = [];
+    lastFetchId = null;
+    isLoading = true;
+    notifyListeners();
+    await getTodos();
+    notifyListeners();
   }
 
   void navigateToAddTodo () {

@@ -3,7 +3,6 @@ import 'package:todo_app/ui/views/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-
 class HomeView extends StatelessWidget {
  const HomeView({Key? key}) : super(key: key);
 
@@ -36,17 +35,13 @@ class HomeView extends StatelessWidget {
        ],),
        body: WillPopScope(
          onWillPop: model.onWillPop,
-         child: SingleChildScrollView(
-           child: Container(
-             height: MediaQuery.of(context).size.height,
-             width: MediaQuery.of(context).size.width,
-             padding: EdgeInsets.symmetric(
-               horizontal: 20,
-               vertical: 20
-             ),
-             child: ListView.builder(
-               itemCount: model.todos.length,
-               itemBuilder: (context, index) {
+         child: RefreshIndicator(
+           onRefresh: () => model.refreshTodos(),
+           child: ListView.builder(
+             padding: const EdgeInsets.all(8),
+             itemCount: model.todos.length + 1,
+             itemBuilder: (context, index) {
+               if(index < model.todos.length) {
                  Todo todo = model.todos[index];
                  return InkWell(
                    onTap: () => model.navigateToEditTodo(todo),
@@ -60,11 +55,27 @@ class HomeView extends StatelessWidget {
                        context
                    ),
                  );
-               },
-             )
+               }
+               else {
+                 if(model.moreTodosAvailable) {
+                   model.getTodos();
+                   return const Padding(
+                     padding: EdgeInsets.symmetric(vertical: 32),
+                     child: Center(
+                       child: CircularProgressIndicator(
+                         color: Colors.green,
+                       ),
+                     ),
+                   );
+                 }
+                 else {
+                   return null;
+                 }
+               }
+                 },
+               ),
+         )
            ),
-         ),
-       ),
        bottomNavigationBar: BottomNavigationBar(
          items: [
            const BottomNavigationBarItem(
@@ -119,8 +130,8 @@ class HomeView extends StatelessWidget {
            child: Transform.scale(
              scale: 1.5,
              child: Checkbox(
-               activeColor: Color(0xff6cf8a9),
-               checkColor: Color(0xff0e3e26),
+               activeColor: const Color(0xff6cf8a9),
+               checkColor: const Color(0xff0e3e26),
                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                value: check,
                onChanged: (bool? value) {},
@@ -134,10 +145,10 @@ class HomeView extends StatelessWidget {
                shape: RoundedRectangleBorder(
                  borderRadius: BorderRadius.circular(12)
                ),
-               color: Color(0xff2a2e3d),
+               color: const Color(0xff2a2e3d),
                child: Row(
                  children: [
-                   SizedBox(
+                   const SizedBox(
                      width: 15,
                    ),
                    Container(

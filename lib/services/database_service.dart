@@ -20,8 +20,13 @@ class DatabaseService {
     });
   }
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getTodos(String? userId) async {
-    QuerySnapshot<Map<String, dynamic>> todos =  await db.collection('todos').where('userId', isEqualTo: userId).get();
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getTodos(String? userId, DocumentSnapshot<Object?>? lastFetchId) async {
+    Query<Map<String, dynamic>> query = db.collection('todos').where('userId', isEqualTo: userId);
+
+    if(lastFetchId != null) {
+      query = query.startAfterDocument(lastFetchId);
+    }
+    QuerySnapshot<Map<String, dynamic>> todos =  await query.limit(8).get();
     return todos.docs;
   }
 
