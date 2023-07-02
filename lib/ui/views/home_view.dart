@@ -1,3 +1,4 @@
+import 'package:todo_app/datamodels/todo.dart';
 import 'package:todo_app/ui/views/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -42,15 +43,21 @@ class HomeView extends StatelessWidget {
                horizontal: 20,
                vertical: 20
              ),
-             child: Column(
-               children: [
-                 TodoCard("Let's Dance", Icons.audiotrack, '03 AM', true, Colors.white, Colors.black, context),
-                 SizedBox(
-                   height: 10,
-                 ),
-                 TodoCard("Let's Dance", Icons.audiotrack, '03 AM', true, Colors.white, Colors.black, context),
-               ],
-             ),
+             child: ListView.builder(
+               itemCount: model.todos.length,
+               itemBuilder: (context, index) {
+                 Todo todo = model.todos[index];
+                 return TodoCard(
+                     todo.title,
+                     Icons.audiotrack,
+                     '03 AM',
+                     todo.completedStatus,
+                     Colors.white,
+                     Colors.black,
+                     context
+                 );
+               },
+             )
            ),
          ),
        ),
@@ -157,7 +164,7 @@ class HomeView extends StatelessWidget {
                    ),
                    Text(
                      time,
-                     style: TextStyle(
+                     style: const TextStyle(
                          color: Colors.white,
                          fontWeight: FontWeight.w500,
                          fontSize: 18,

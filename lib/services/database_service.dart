@@ -17,4 +17,9 @@ class DatabaseService {
       "userId": _sharedPreferences.uid
     });
   }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getTodos(String? userId) async {
+    QuerySnapshot<Map<String, dynamic>> todos =  await db.collection('todos').where('userId', isEqualTo: userId).get();
+    return todos.docs;
+  }
 }
