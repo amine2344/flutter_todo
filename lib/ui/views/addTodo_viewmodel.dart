@@ -42,8 +42,8 @@ class AddTodoViewModel extends FutureViewModel<bool> {
     isLoading = true;
     notifyListeners();
     try {
-      if(title.isEmpty || description.isEmpty) {
-        throw Exception("Please enter valid Title or Description");
+      if(title.isEmpty || description.isEmpty || type.isEmpty || category.isEmpty) {
+        throw Exception("Please enter valid Title, Description, Type & Category");
       }
       await _dbService.createTodo(title, type, description, category);
       _snackbarService.showSnackbar(message: "Todo created successfully");
@@ -54,6 +54,8 @@ class AddTodoViewModel extends FutureViewModel<bool> {
       await _navigationService.navigateTo(Routes.homeView);
     }
     catch(err) {
+      isLoading = false;
+      notifyListeners();
       _snackbarService.showSnackbar(message: err.toString());
     }
   }

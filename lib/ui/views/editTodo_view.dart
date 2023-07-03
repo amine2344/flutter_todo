@@ -126,7 +126,7 @@ class EditTodoView extends StatelessWidget {
 
   Widget button(BuildContext context, EditTodoViewModel model) {
     return InkWell(
-      onTap: () => model.updateTodo(_titleController.text, _descriptionController.text),
+      onTap: () => model.isEditEnabled ? model.updateTodo(_titleController.text.trim(), _descriptionController.text.trim()) : null,
       child: Container(
         height: 56,
         width: MediaQuery.of(context).size.width,

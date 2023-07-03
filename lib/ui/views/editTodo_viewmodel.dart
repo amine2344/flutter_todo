@@ -48,8 +48,8 @@ class EditTodoViewModel extends FutureViewModel<bool> {
     isLoading = true;
     notifyListeners();
     try {
-      if(title.isEmpty || description.isEmpty) {
-        throw Exception("Please enter valid Title or Description");
+      if(title.isEmpty || description.isEmpty || type.isEmpty || category.isEmpty) {
+        throw Exception("Please enter valid Title, Description, Type & Category");
       }
       await _dbService.updateTodo(category, type, title, description, todo.todoId);
       _snackbarService.showSnackbar(message: "Todo updated successfully");

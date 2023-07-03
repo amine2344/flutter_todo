@@ -113,7 +113,7 @@ class AddTodoView extends StatelessWidget {
 
  Widget button(BuildContext context, AddTodoViewModel model) {
    return InkWell(
-     onTap: () => model.addTodo(_titleController.text, _descriptionController.text),
+     onTap: () => model.addTodo(_titleController.text.trim(), _descriptionController.text.trim()),
      child: Container(
        height: 56,
        width: MediaQuery.of(context).size.width,
